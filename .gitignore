@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+
+# PyInstaller
+*.spec
+dist/
+build/
+
+# Tests / archivos sensibles
+*.txt
+
+# UV
+.python-version
+
+script_password.py
+CLAUDE.md
