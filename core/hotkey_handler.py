@@ -1,14 +1,14 @@
 import threading
 import time
 import keyboard
-import pyperclip
-import pyautogui
-from config import HOTKEY, CLIPBOARD_CLEAR_DELAY, HOTKEY_DELAY
+from config import HOTKEY, HOTKEY_DELAY
+
 
 class HotKeyHandler:
     """
     Escucha el hotkey en un thread daemon.
     Solo ejecuta el pegado si la contraseña está activa.
+    La contraseña nunca toca el portapapeles.
     """
 
     def __init__(self, password_manager):
@@ -19,7 +19,7 @@ class HotKeyHandler:
         """Inicia el listener en un thread daemon."""
         if self._registered:
             return
-        keyboard.add_hotkey(HOTKEY, self._on_hotkey_pressed, suppress=False)  # ← suppress=False
+        keyboard.add_hotkey(HOTKEY, self._on_hotkey_pressed, suppress=False)
         self._registered = True
 
     def stop_listening(self) -> None:
@@ -38,7 +38,6 @@ class HotKeyHandler:
 
         password = self.password_manager.contraseña_actual
 
-        # Lanzar en thread separado para no bloquear el listener
         threading.Thread(
             target=self._paste_password,
             args=(password,),
@@ -46,10 +45,9 @@ class HotKeyHandler:
         ).start()
 
     def _paste_password(self, password: str) -> None:
-        """Ejecuta el pegado en thread separado."""
-        time.sleep(0.3)  # ← pausa mayor para que Windows cambie el foco
-        pyperclip.copy(password)
-        time.sleep(HOTKEY_DELAY)
-        pyautogui.hotkey("ctrl", "v")
-        time.sleep(CLIPBOARD_CLEAR_DELAY)
-        pyperclip.copy("")
+        """
+        Escribe la contraseña carácter a carácter con keyboard.write().
+        La contraseña NUNCA toca el portapapeles.
+        """
+        time.sleep(0.3)  # Pausa para que Windows cambie el foco
+        keyboard.write(password, delay=0.02)  # 20ms entre caracteres

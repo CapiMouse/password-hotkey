@@ -37,8 +37,8 @@ Aplicación de escritorio en Python que permite activar una contraseña por tiem
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/password-manager.git
-cd password-manager
+git clone https://github.com/CapiMouse/password-hotkey.git
+cd password-hotkey
 ```
 
 ### 2. Crear entorno virtual e instalar dependencias
@@ -102,7 +102,7 @@ El contador de tiempo restante y la barra de progreso se actualizan cada 500ms. 
 ## Estructura del Proyecto
 
 ```
-password-manager/
+password-hotkey/
 ├── main.py                  # Punto de entrada + GUI
 ├── config.py                # Constantes globales
 ├── core/
@@ -112,7 +112,9 @@ password-manager/
 ├── requirements.txt
 ├── CLAUDE.md                # Documentación técnica interna
 └── README.md                # Este archivo
+
 ```
+Este repositorio incluye un archivo CLAUDE.md con orientación técnica para desarrolladores que usen Claude Code para contribuir o extender el proyecto.
 
 ---
 
@@ -139,7 +141,7 @@ password-manager/
 
 ```bash
 uv add pyinstaller --dev
-pyinstaller --onefile --windowed --name "PasswordManager" main.py
+pyinstaller --onefile --windowed --name "password-hotkey" main.py
 ```
 
 El ejecutable quedará en la carpeta `dist/`.

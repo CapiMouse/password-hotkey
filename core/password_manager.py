@@ -11,14 +11,15 @@ class PasswordManager:
         self.contraseña_actual: str = ""
         self.is_active: bool = False
         self.expiry_time: float | None = None
+        self.timer_duration: int = TIMER_DURATION  # ← añadido
 
     def activate(self, password: str) -> bool:
-        """Activa la contraseña por TIMER_DURATION segundos."""
+        """Activa la contraseña por timer_duration segundos."""
         if not password:
             return False
         self.contraseña_actual = password
         self.is_active = True
-        self.expiry_time = time.time() + TIMER_DURATION
+        self.expiry_time = time.time() + self.timer_duration
         return True
 
     def deactivate(self) -> None:

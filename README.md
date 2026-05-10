@@ -1,52 +1,55 @@
-# 🔐 Password Manager con Timer
+🌐 [Español](README.es.md) | **Español**
 
-Aplicación de escritorio en Python que permite activar una contraseña por tiempo limitado y pegarla en cualquier campo del sistema mediante un atajo de teclado.
+# 🔐 Password-hotkey — Password Manager with Timer
 
----
-
-## ¿Cómo funciona?
-
-1. Escribe tu contraseña en la interfaz
-2. Pulsa **Activar (1h)** — la contraseña queda lista durante 60 minutos
-3. Ve a cualquier campo (navegador, aplicación, etc.) y pulsa **Ctrl + Alt + P**
-4. La contraseña se pega automáticamente y el portapapeles se limpia al instante
-5. Pulsa **Desactivar** cuando ya no la necesites
-
-> 💡 La contraseña **nunca permanece en el portapapeles**. Se copia y se borra en milisegundos tras cada uso.
+A desktop app in Python that lets you activate a password for a limited time and type it anywhere using a keyboard shortcut — without ever touching the clipboard.
 
 ---
 
-## Capturas
+## How it works
 
-![Interfaz principal](assets/screenshot.png)
+1. Type your password in the interface
+2. Choose the duration: **15min, 30min, 1h or 4h**
+3. Click **Activate** — the field locks and the hotkey becomes active
+4. Go to any field (browser, app, etc.) and press **Ctrl + Alt + P**
+5. The password is typed automatically, **bypassing the clipboard entirely**
+6. Click **Deactivate** when you're done
+
+> 💡 The password **never touches the clipboard**. It is typed character by character directly into the target field, so it never appears in `Win + V` history.
 
 ---
 
-## Requisitos
+## Screenshots
+
+![Main interface](assets/screenshot.png)
+
+---
+
+## Requirements
 
 - Python 3.10+
-- Windows (recomendado) o Ubuntu con Xorg
+- Windows (recommended) or Ubuntu with Xorg
 
 ---
 
-## Instalación
+## Installation
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tu-usuario/password-manager.git
-cd password-manager
+git clone https://github.com/CapiMouse/password-hotkey.git
+cd password-hotkey
 ```
 
-### 2. Crear entorno virtual e instalar dependencias
+### 2. Create virtual environment and install dependencies
 
-**Con `uv` (recomendado):**
+**With `uv` (recommended):**
 ```bash
 uv venv
 uv pip install -r requirements.txt
 ```
 
-**Con `pip` clásico:**
+**With classic `pip`:**
 ```bash
 python -m venv venv
 venv\Scripts\activate        # Windows
@@ -54,92 +57,105 @@ source venv/bin/activate     # Linux
 pip install -r requirements.txt
 ```
 
-### 3. Ejecutar
+### 3. Run
 
 ```bash
-# Con uv
+# With uv
 uv run python main.py
 
-# O directamente
+# Or directly
 python main.py
 ```
 
-> ⚠️ **Windows**: Si el atajo de teclado no responde, ejecuta como **Administrador**.
+> ⚠️ **Windows**: If the keyboard shortcut doesn't respond, run as **Administrator**.
 
-> ⚠️ **Ubuntu**: Requiere sesión **Xorg** (no Wayland). En el login selecciona *"Ubuntu on Xorg"*.
+> ⚠️ **Ubuntu**: Requires an **Xorg** session (not Wayland). At login, select *"Ubuntu on Xorg"*.
 
 ---
 
-## Uso
+## Usage
 
-| Acción | Descripción |
+| Action | Description |
 |--------|-------------|
-| Escribir contraseña | Campo de texto enmascarado |
-| `Activar (1h)` | Activa el hotkey durante 1 hora |
-| `Ctrl + Alt + P` | Pega la contraseña donde estés |
-| `Desactivar` | Desactiva el hotkey manualmente |
-| Cerrar ventana | Desactiva todo y limpia el portapapeles |
+| Type password | Masked text field (👁 to show/hide) |
+| Choose duration | Dropdown: 15min, 30min, 1h, 4h |
+| `Activate` | Enables the hotkey and locks the field |
+| `Ctrl + Alt + P` | Types the password into the active field |
+| `Deactivate` | Manually disables the hotkey |
+| Close window | Automatically deactivates everything |
 
-El contador de tiempo restante se actualiza en la interfaz cada 500ms.
+The countdown and progress bar update every 500ms. A popup appears when the session expires.
 
 ---
 
-## Estructura del Proyecto
+## Features
+
+- ⏱ **Configurable timer**: 15min, 30min, 1h or 4h
+- 👁 **Show/hide password**: button to temporarily reveal the input
+- 🔒 **Locked field**: cannot be edited while the session is active
+- 📊 **Progress bar**: visual indicator with dynamic colors (green → orange → red)
+- ⏰ **Expiry popup**: automatic notification when the session ends
+- 🔐 **Clipboard-free**: password is typed directly, never stored in `Win + V`
+
+---
+
+## Project Structure
 
 ```
-password-manager/
-├── main.py                  # Punto de entrada + GUI
-├── config.py                # Constantes globales
+password-hotkey/
+├── main.py                  # Entry point + GUI
+├── config.py                # Global constants
 ├── core/
 │   ├── __init__.py
-│   ├── password_manager.py  # Lógica de estado y timer
-│   └── hotkey_handler.py    # Listener de Ctrl+Alt+P
+│   ├── password_manager.py  # State and timer logic
+│   └── hotkey_handler.py    # Ctrl+Alt+P listener
 ├── requirements.txt
-├── CLAUDE.md                # Documentación técnica interna
-└── README.md                # Este archivo
+├── CLAUDE.md                # Internal technical documentation
+└── README.md                # This file
+
 ```
+This repository includes a CLAUDE.md file with technical guidance for developers using Claude Code to contribute to or extend this project.
 
 ---
 
-## Stack Tecnológico
+## Tech Stack
 
-| Librería | Uso |
-|----------|-----|
-| [PySimpleGUI](https://pysimplegui.readthedocs.io/) | Interfaz gráfica |
-| [keyboard](https://github.com/boppreh/keyboard) | Hotkeys globales |
-| [pyperclip](https://pyperclip.readthedocs.io/) | Portapapeles |
-| [pyautogui](https://pyautogui.readthedocs.io/) | Simulación de Ctrl+V |
+| Library | Purpose |
+|---------|---------|
+| [PySimpleGUI](https://pysimplegui.readthedocs.io/) | GUI interface |
+| [keyboard](https://github.com/boppreh/keyboard) | Global hotkeys + direct typing |
 
 ---
 
-## Decisiones de Diseño
+## Design Decisions
 
-- **Sin almacenamiento persistente** — la contraseña vive solo en RAM durante la sesión
-- **Sin encriptación** — aplicación de uso puntual en entorno de confianza
-- **Portapapeles limpio** — se borra automáticamente tras cada pegado
-- **Hotkey condicional** — solo funciona cuando está explícitamente activado
+- **No persistent storage** — the password lives only in RAM during the session
+- **No encryption** — single-use app in a trusted environment
+- **No clipboard** — `keyboard.write()` types directly, avoiding `Win + V` history
+- **Conditional hotkey** — only works when explicitly activated
+- **Locked field on activate** — prevents accidental changes during the session
 
 ---
 
-## Generar Ejecutable `.exe` (Windows)
+## Build `.exe` (Windows)
 
 ```bash
-pip install pyinstaller
-pyinstaller --onefile --windowed --name "PasswordManager" main.py
+uv add pyinstaller --dev
+pyinstaller --onefile --windowed --name "password-hotkey" main.py
 ```
 
-El ejecutable quedará en la carpeta `dist/`.
+The executable will be generated in the `dist/` folder.
 
 ---
 
-## Limitaciones conocidas
+## Known Limitations
 
-- No funciona en Ubuntu con **Wayland** (usar Xorg)
-- En Windows puede requerir permisos de **Administrador**
-- El historial extendido del portapapeles de Windows (`Win + V`) puede retener entradas previas
+- Does not work on Ubuntu with **Wayland** (use Xorg instead)
+- May require **Administrator** privileges on Windows
+- `keyboard.write()` may fail with uncommon Unicode characters depending on the system keyboard layout
 
 ---
 
-## Licencia
+## License
 
-MIT — libre para uso personal y modificación.
+MIT — free for personal use and modification.
